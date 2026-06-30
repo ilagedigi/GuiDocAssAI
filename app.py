@@ -5,7 +5,7 @@ from google import genai
 from google.genai import types
 
 st.set_page_config(
-    page_title="Multi-Doc AI Agent",
+    page_title="Gui AI Doc Assistant",
     page_icon="🤖",
     layout="centered",
     initial_sidebar_state="expanded"
@@ -77,7 +77,7 @@ with st.sidebar:
             if col2.button("❌", key=f"del_{nome_arquivo}"):
                 arquivos_para_deletar.append(nome_arquivo)
                 
-        if archivos_para_deletar:
+        if arquivos_para_deletar:
             client = genai.Client(api_key=st.session_state.api_key)
             for name in arquivos_para_deletar:
                 try: client.files.delete(name=st.session_state.uploaded_files_info[name])
@@ -114,8 +114,12 @@ if prompt := st.chat_input("Faça sua pergunta aqui..."):
             active_files_objects = [client.files.get(name=uri) for uri in st.session_state.uploaded_files_info.values()]
             
             system_instruction = (
-                "Você é um assistente ultraestrito. Responda APENAS com base nos documentos anexados. "
-                "Se a resposta não estiver neles, diga de forma direta que a informação não consta na base de conhecimento."
+                "Você é um assistente ultraestrito focado exclusivamente nos documentos anexados a esta conversa. Seu objetivo é tirar dúvidas do usuário de forma clara e direta."
+                "\nRegras Absolutas:"
+                "\n1. Baseie suas respostas ÚNICA e EXCLUSIVAMENTE nas informações contimas nos arquivos fornecidos pelo usuário."
+                "\n2. Se a resposta para a pergunta não estiver explicitamente descrita nos documentos, responda exatamente: 'Desculpe, não encontrei essa informação na base de conhecimento fornecida.'"
+                "\n3. Nunca invente dados ou use conhecimentos externos da internet."
+                "\n4. Se o usuário perguntar sobre assuntos aleatórios não cobertos pelos documentos, recuse educadamente."
             )
             
             contents_payload = []
