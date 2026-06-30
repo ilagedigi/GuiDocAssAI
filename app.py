@@ -133,8 +133,9 @@ with st.expander("⚙️ Configurações do Veículo (Selecione seus Manuais e D
 st.markdown("---")
 
 # 7. INTERFACE PRINCIPAL DO CHAT
-st.title("⚡ GuiDocAssAI")
-st.caption(f"ID do Dispositivo: `{user_id[:8]}...` | Protegido conforme regras da LGPD.")
+st.title("⚡ ElAI")
+st.caption("Electric Assistant Intelligence | Protegido conforme regras da LGPD")
+st.caption(f"ID do Dispositivo: '{user_id[:8]}...'")
 
 for message in st.session_state.chat_history:
     with st.chat_message(message["role"]):
